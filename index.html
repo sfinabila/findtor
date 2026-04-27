@@ -49,8 +49,8 @@
         }
         
         .btn-primary { 
-            background: linear-gradient(135deg, #000181 0%, #80a1d4 100%); 
-            color: white; 
+            background: linear-gradient(135deg, #000181 0%, #80a1d4 100%) !important; 
+            color: white !important; 
             transition: all 0.3s ease;
         }
         .btn-primary:hover { 
@@ -68,7 +68,6 @@
             box-shadow: 0 10px 25px -5px rgba(192, 212, 229, 0.4); 
         }
 
-        /* ✅ POPUP CERAH - WARNA BARU */
         .popup-overlay {
             background: rgba(0, 1, 129, 0.85) !important;
             backdrop-filter: blur(20px);
@@ -123,7 +122,6 @@
             box-shadow: 0 20px 40px -10px rgba(0, 1, 129, 0.3);
         }
 
-        /* ✅ LABEL KONTRAS TINGGI */
         .form-label {
             color: #000181 !important;
             font-weight: 800 !important;
@@ -142,21 +140,15 @@
             border-color: #000181 !important;
         }
 
-        /* Twitter icon fix */
-        .fa-x-twitter {
-            color: #000000 !important;
-        }
-        .dark .fa-x-twitter {
+        .fa-sun {
             color: #ffffff !important;
         }
 
-        /* Profile images circular */
         .profile-img {
             border-radius: 50% !important;
             object-fit: cover;
         }
 
-        /* Team section title contrast fix */
         .team-title {
             color: #000181 !important;
             text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
@@ -166,7 +158,6 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
 
-        /* LEAD GACOR - WARNA BIRU KHUSUS */
         .lead-gacor {
             color: #000181 !important;
             text-shadow: 1px 1px 2px rgba(0,1,129,0.3);
@@ -176,7 +167,6 @@
             box-shadow: 0 0 0 4px rgba(0,1,129,0.3) !important;
         }
 
-        /* High contrast text for all modes */
         .high-contrast-text {
             color: #1e293b !important;
         }
@@ -184,7 +174,6 @@
             color: #f1f5f9 !important;
         }
 
-        /* Filter dropdowns */
         .filter-dropdown {
             background: rgba(255, 255, 255, 0.9) !important;
             color: #1e293b !important;
@@ -202,14 +191,65 @@
             color: #f1f5f9;
         }
 
-        /* Popup button glow */
         .popup-btn {
             background: linear-gradient(135deg, #000181 0%, #80a1d4 100%) !important;
             box-shadow: 0 4px 15px rgba(0,1,129,0.4) !important;
+            color: white !important;
         }
         .popup-btn:hover {
             box-shadow: 0 8px 25px rgba(0,1,129,0.6) !important;
             transform: translateY(-2px) !important;
+        }
+
+        /* Dashboard dropdown */
+        .dropdown-menu {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .dark .dropdown-menu {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Profile upload */
+        .profile-upload {
+            position: relative;
+            display: inline-block;
+        }
+        .profile-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        .profile-upload:hover::before {
+            content: '📸';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            opacity: 0.8;
+            z-index: 2;
+        }
+
+        /* Password eye */
+        .password-container {
+            position: relative;
+        }
+        .password-eye {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6b7280;
+            z-index: 10;
+        }
+        .password-eye:hover {
+            color: #000181;
         }
     </style>
 </head>
@@ -219,7 +259,7 @@
         <div class="text-2xl md:text-3xl font-black tracking-tight high-contrast-text">
             <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">FIND</span><span class="text-yellow-500">TOR</span>
         </div>
-        <div class="flex items-center gap-3 md:gap-6">
+        <div class="flex items-center gap-3 md:gap-6" id="navRight">
             <div class="hidden md:flex gap-6 font-bold text-xs uppercase tracking-wider high-contrast-text">
                 <a href="#home" class="hover:text-primary transition-all group relative">
                     Beranda 
@@ -234,14 +274,140 @@
                     <span class="absolute bottom-0 left-0 h-0.5 bg-primary w-0 group-hover:w-full transition-all duration-300"></span>
                 </a>
             </div>
-            <div class="flex items-center gap-2 border-l px-4 border-slate-200 dark:border-slate-700">
+            <div class="flex items-center gap-2 border-l px-4 border-slate-200 dark:border-slate-700" id="authSection">
                 <button id="theme-toggle" class="p-2 rounded-2xl hover:bg-white/30 dark:hover:bg-slate-800/50 transition-all hover:scale-110">
                     <i id="theme-icon" class="fas fa-moon text-lg"></i>
                 </button>
-                <button onclick="openModal('loginModal')" class="px-6 py-2.5 rounded-2xl btn-primary text-xs font-black uppercase tracking-wider shadow-lg popup-btn">Login</button>
+                <button onclick="openModal('loginModal')" id="loginBtn" class="px-6 py-2.5 rounded-2xl btn-primary text-xs font-black uppercase tracking-wider shadow-lg popup-btn">Login</button>
+            </div>
+            <!-- User Dashboard -->
+            <div id="userDashboard" class="hidden flex items-center gap-2 border-l px-4 border-slate-200 dark:border-slate-700">
+                <button id="userProfileBtn" class="w-10 h-10 rounded-2xl bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-white font-bold text-sm shadow-lg hover:scale-110 transition-all cursor-pointer relative group">
+                    <i class="fas fa-user"></i>
+                    <div class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+                </button>
             </div>
         </div>
     </nav>
+
+    <!-- User Dropdown Menu -->
+    <div id="userDropdown" class="hidden fixed top-16 right-4 z-[100] dropdown-menu rounded-3xl shadow-2xl border py-2 w-48 animate-pop">
+        <div class="px-4 py-3 border-b border-slate-200 dark:border-slate-700">
+            <p class="font-bold text-sm high-contrast-text" id="dropdownUsername">User</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400" id="dropdownEmail">email@example.com</p>
+        </div>
+        <a href="#" onclick="showProfile()" class="flex items-center gap-3 px-4 py-3 text-sm font-bold hover:bg-primary/10 hover:text-primary transition-all high-contrast-text">
+            <i class="fas fa-user-circle text-lg"></i>
+            Profil Saya
+        </a>
+        <a href="#" onclick="showOrders()" class="flex items-center gap-3 px-4 py-3 text-sm font-bold hover:bg-primary/10 hover:text-primary transition-all high-contrast-text">
+            <i class="fas fa-shopping-bag text-lg"></i>
+            Pesanan
+        </a>
+        <a href="#" onclick="showSchedule()" class="flex items-center gap-3 px-4 py-3 text-sm font-bold hover:bg-primary/10 hover:text-primary transition-all high-contrast-text">
+            <i class="fas fa-calendar-alt text-lg"></i>
+            Jadwal
+        </a>
+        <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold hover:bg-red-500/10 hover:text-red-500 transition-all high-contrast-text">
+            <i class="fas fa-sign-out-alt text-lg"></i>
+            Log Out
+        </button>
+    </div>
+
+    <!-- DASHBOARD MODAL -->
+    <div id="dashboardModal" class="hidden fixed inset-0 z-[200] popup-overlay flex items-center justify-center p-4">
+        <div class="popup-card p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto animate-pop rounded-5xl shadow-2xl">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-black uppercase tracking-tight form-label">👤 Profil Saya</h2>
+                <button onclick="closeModal('dashboardModal')" class="text-2xl hover:text-red-500 hover:scale-110 transition-all high-contrast-text"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <!-- Profile Picture -->
+            <div class="text-center mb-8">
+                <div class="profile-upload mx-auto relative w-32 h-32 md:w-40 md:h-40 mb-6 group">
+                    <img id="dashboardProfileImg" src="" alt="Profile" class="w-full h-full profile-img border-4 border-primary shadow-2xl object-cover rounded-full">
+                    <input type="file" id="profileUpload" accept="image/*" onchange="uploadProfileImage(event)">
+                    <i class="fas fa-camera absolute -bottom-2 -right-2 bg-primary text-white p-3 rounded-3xl shadow-xl text-lg border-4 border-white group-hover:bg-secondary transition-all cursor-pointer"></i>
+                </div>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Klik foto untuk upload foto baru</p>
+            </div>
+
+            <!-- User Info -->
+            <div class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="form-label block mb-3">👤 Nama Lengkap</label>
+                        <input type="text" id="dashboardFullname" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm px-4 outline-none transition-all high-contrast-text shadow-sm" readonly>
+                    </div>
+                    <div>
+                        <label class="form-label block mb-3">🆔 Username</label>
+                        <input type="text" id="dashboardUsername" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm px-4 outline-none transition-all high-contrast-text shadow-sm" readonly>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="form-label block mb-3">📧 Email</label>
+                        <input type="email" id="dashboardEmail" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm px-4 outline-none transition-all high-contrast-text shadow-sm" readonly>
+                    </div>
+                    <div>
+                        <label class="form-label block mb-3">📱 No. Telepon</label>
+                        <input type="tel" id="dashboardPhone" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm px-4 outline-none transition-all high-contrast-text shadow-sm" readonly>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="form-label block mb-3">💬 ID Discord</label>
+                    <input type="text" id="dashboardDiscord" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm px-4 outline-none transition-all high-contrast-text shadow-sm" readonly>
+                </div>
+
+                <!-- Mentor Fields (only for mentors) -->
+                <div id="mentorFieldsSection" class="hidden">
+                    <label class="form-label block mb-3">🎯 Bidang Mentor</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div class="flex items-center gap-2 p-3 bg-primary/10 border-2 border-primary/30 rounded-xl">
+                            <input type="checkbox" id="field_pm" class="w-4 h-4 rounded text-primary focus:ring-primary">
+                            <label for="field_pm" class="text-sm font-bold text-primary cursor-pointer">PM</label>
+                        </div>
+                        <div class="flex items-center gap-2 p-3 bg-primary/10 border-2 border-primary/30 rounded-xl">
+                            <input type="checkbox" id="field_ai" class="w-4 h-4 rounded text-primary focus:ring-primary">
+                            <label for="field_ai" class="text-sm font-bold text-primary cursor-pointer">AI</label>
+                        </div>
+                        <div class="flex items-center gap-2 p-3 bg-primary/10 border-2 border-primary/30 rounded-xl">
+                            <input type="checkbox" id="field_web" class="w-4 h-4 rounded text-primary focus:ring-primary">
+                            <label for="field_web" class="text-sm font-bold text-primary cursor-pointer">Web</label>
+                        </div>
+                        <div class="flex items-center gap-2 p-3 bg-primary/10 border-2 border-primary/30 rounded-xl">
+                            <input type="checkbox" id="field_uiux" class="w-4 h-4 rounded text-primary focus:ring-primary">
+                            <label for="field_uiux" class="text-sm font-bold text-primary cursor-pointer">UI/UX</label>
+                        </div>
+                        <div class="flex items-center gap-2 p-3 bg-primary/10 border-2 border-primary/30 rounded-xl">
+                            <input type="checkbox" id="field_game" class="w-4 h-4 rounded text-primary focus:ring-primary">
+                            <label for="field_game" class="text-sm font-bold text-primary cursor-pointer">Game</label>
+                        </div>
+                        <div class="flex items-center gap-2 p-3 bg-primary/10 border-2 border-primary/30 rounded-xl">
+                            <input type="checkbox" id="field_data" class="w-4 h-4 rounded text-primary focus:ring-primary">
+                            <label for="field_data" class="text-sm font-bold text-primary cursor-pointer">Data</label>
+                        </div>
+                        <div class="flex items-center gap-2 p-3 bg-primary/10 border-2 border-primary/30 rounded-xl">
+                            <input type="checkbox" id="field_cyber" class="w-4 h-4 rounded text-primary focus:ring-primary">
+                            <label for="field_cyber" class="text-sm font-bold text-primary cursor-pointer">Cyber</label>
+                        </div>
+                        <div class="flex items-center gap-2 p-3 bg-primary/10 border-2 border-primary/30 rounded-xl">
+                            <input type="checkbox" id="field_prompt" class="w-4 h-4 rounded text-primary focus:ring-primary">
+                            <label for="field_prompt" class="text-sm font-bold text-primary cursor-pointer">Prompt</label>
+                        </div>
+                    </div>
+                    <button onclick="saveMentorFields()" class="mt-4 px-6 py-2.5 bg-gradient-to-r from-yellow-400 to-orange-500 text-white rounded-2xl font-bold hover:shadow-xl transition-all shadow-lg">💾 Simpan Bidang Mentor</button>
+                </div>
+
+                <div class="flex gap-3 pt-6 border-t border-slate-200 dark:border-slate-700">
+                    <button onclick="editProfile()" class="flex-1 py-3 px-6 btn-secondary font-bold uppercase text-sm tracking-wider shadow-lg hover:shadow-xl transition-all">✏️ Edit Profil</button>
+                    <button onclick="saveProfile()" id="saveProfileBtn" class="hidden flex-1 py-3 px-6 popup-btn font-bold uppercase text-sm tracking-wider shadow-lg hover:shadow-xl transition-all text-white">💾 Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <section id="home" class="pt-32 pb-24 px-4 md:px-8 relative">
         <div class="max-w-4xl mx-auto text-center relative z-10">
@@ -249,10 +415,10 @@
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight uppercase hero-title mb-6 high-contrast-text">
                     Find Your Mentor,<br><span class="text-yellow-500">Level Up Your Life</span>.
                 </h1>
-                <p class="text-lg md:text-xl font-light text-slate-800 dark:text-slate-200 mb-12 max-w-2xl mx-auto leading-relaxed high-contrast-text">Platform mentoring bidag TI untuk mahasiswa dan profesional muda. Belajar langsung dari ahlinya.</p>
+                <p class="text-lg md:text-xl font-light text-slate-800 dark:text-slate-200 mb-12 max-w-2xl mx-auto leading-relaxed high-contrast-text">Platform mentoring bidang TI untuk mahasiswa dan profesional muda. Belajar langsung dari ahlinya.</p>
             </div>
             <div class="flex flex-col sm:flex-row gap-4 justify-center animate-pop">
-                <button onclick="openModal('regChoiceModal')" class="px-10 py-4 rounded-3xl btn-secondary font-bold text-base tracking-wide uppercase shadow-xl flex-1 max-w-xs popup-btn">Mulai Sekarang</button>
+                <button onclick="openModal('regChoiceModal')" class="px-10 py-4 rounded-3xl btn-primary font-bold text-base tracking-wide uppercase shadow-xl flex-1 max-w-xs popup-btn text-white">Mulai Sekarang</button>
                 <a href="#mentors" class="px-10 py-4 rounded-3xl bg-white/20 backdrop-blur-md border border-white/30 font-bold text-base hover:bg-white/30 transition-all flex-1 max-w-xs text-center high-contrast-text py-4">Jelajahi Mentor</a>
             </div>
         </div>
@@ -263,7 +429,7 @@
             <h2 class="text-base md:text-lg font-black text-primary uppercase tracking-[0.3em] mb-8 text-center high-contrast-text">🔍 Pencarian Mentor</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <select id="filterField" class="filter-dropdown w-full p-4 rounded-2xl border hover:border-secondary focus:border-primary font-semibold text-sm transition-all outline-none">
-                    <option value="">Pilih Bidang</option>
+                    <option value="">Semua Bidang</option>
                     <option value="pm">Project Manager</option>
                     <option value="ai">AI Engineer</option>
                     <option value="web">Web Development</option>
@@ -273,22 +439,23 @@
                     <option value="prompt">Prompt Engineer</option>
                     <option value="data-analyst">Data Analyst</option>
                     <option value="data-scientist">Data Scientist</option>
+                    <option value="cybersecurity">Cybersecurity</option>
                 </select>
                 <select id="filterPrice" class="filter-dropdown w-full p-4 rounded-2xl border hover:border-secondary focus:border-primary font-semibold text-sm transition-all outline-none">
-                    <option value="">Range Harga</option>
+                    <option value="">Semua Harga</option>
+                    <option value="0-50">Rp 0 - 50k</option>
                     <option value="50-100">Rp 50k - 100k</option>
                     <option value="100-200">Rp 100k - 200k</option>
                     <option value="200-300">Rp 200k - 300k</option>
-                    <option value="0-50">Rp 0 - 50k</option>
                     <option value="300+">Rp 300k+</option>
                 </select>
                 <select id="filterType" class="filter-dropdown w-full p-4 rounded-2xl border hover:border-secondary focus:border-primary font-semibold text-sm transition-all outline-none">
-                    <option value="">Tipe Diskusi</option>
+                    <option value="">Semua Tipe</option>
                     <option value="private">Private 1-on-1</option>
                     <option value="group">Group Discussion</option>
                     <option value="both">Keduanya</option>
                 </select>
-                <button onclick="filterMentors()" class="w-full btn-primary rounded-2xl font-black uppercase text-xs tracking-wider h-[56px] shadow-lg hover:shadow-xl popup-btn">🔎 Cari</button>
+                <button onclick="filterMentors()" class="w-full btn-primary rounded-2xl font-black uppercase text-xs tracking-wider h-[56px] shadow-lg hover:shadow-xl popup-btn text-white">🔎 Cari</button>
             </div>
         </div>
 
@@ -326,10 +493,10 @@
     </section>
 
     <footer class="py-12 border-t border-slate-200 dark:border-slate-800 text-center">
-        <p class="text-sm md:text-base font-black uppercase tracking-[0.3em] high-contrast-text">© 2024 FINDTOR. Build With Passion.</p>
+        <p class="text-sm md:text-base font-black uppercase tracking-[0.3em] high-contrast-text">© 2026 FINDTOR. Build With Passion.</p>
     </footer>
 
-    <!-- ✅ LOGIN MODAL - POPUP CERAH -->
+    <!-- LOGIN MODAL -->
     <div id="loginModal" class="hidden fixed inset-0 z-[200] popup-overlay flex items-center justify-center p-4">
         <div class="popup-card p-8 w-full max-w-sm animate-pop rounded-4xl shadow-2xl max-h-[90vh] overflow-y-auto">
             <div class="text-center mb-8">
@@ -343,36 +510,24 @@
                     <label class="form-label block mb-2">👤 Username / Email</label>
                     <input type="text" id="loginUsername" placeholder="Masukkan username atau email" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm px-4 outline-none transition-all high-contrast-text shadow-sm" required>
                 </div>
-                <div>
+                <div class="password-container">
                     <label class="form-label block mb-2">🔒 Password</label>
-                    <input type="password" id="loginPassword" placeholder="Masukkan password Anda" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm px-4 outline-none transition-all high-contrast-text shadow-sm" required>
+                    <input type="password" id="loginPassword" placeholder="Masukkan password Anda" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm pr-12 outline-none transition-all high-contrast-text shadow-sm" required>
+                    <i class="fas fa-eye password-eye" onclick="togglePassword('loginPassword')" id="loginEye"></i>
                 </div>
                 <div class="flex justify-between items-center text-xs high-contrast-text">
                     <label class="flex items-center gap-2"><input type="checkbox" class="w-4 h-4 rounded border-primary"> Ingat Saya</label>
                     <button type="button" onclick="resetPassword()" class="font-bold text-primary hover:text-secondary transition-all form-label">Lupa Password?</button>
                 </div>
-                <button type="submit" class="w-full py-4 popup-btn rounded-2xl font-black uppercase text-xs tracking-wider shadow-xl hover:shadow-2xl transition-all">🚀 Masuk Sekarang</button>
+                <button type="submit" class="w-full py-4 popup-btn rounded-2xl font-black uppercase text-xs tracking-wider shadow-xl hover:shadow-2xl transition-all text-white">🚀 Masuk Sekarang</button>
             </form>
-            <p class="text-center text-xs font-bold high-contrast-text uppercase py-6 border-t border-slate-200 dark:border-slate-700 pt-6">Atau Masuk Melalui</p>
-            <div class="grid grid-cols-3 gap-3">
-                <button class="py-4 bg-white/90 dark:bg-slate-800/90 border-2 border-slate-200 dark:border-slate-700 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 hover:shadow-lg transition-all flex flex-col items-center justify-center gap-2 text-sm font-bold shadow-sm high-contrast-text group hover:scale-105">
-                    <i class="fab fa-google text-red-500 text-xl group-hover:scale-110"></i>
-                    <span class="text-xs">Google</span>
-                </button>
-                <button class="py-4 bg-white/90 dark:bg-slate-800/90 border-2 border-slate-200 dark:border-slate-700 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 hover:shadow-lg transition-all flex flex-col items-center justify-center gap-2 text-sm font-bold shadow-sm high-contrast-text group hover:scale-105">
-                    <i class="fab fa-facebook text-blue-600 text-xl group-hover:scale-110"></i>
-                    <span class="text-xs">Facebook</span>
-                </button>
-                <button class="py-4 bg-white/90 dark:bg-slate-800/90 border-2 border-slate-200 dark:border-slate-700 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 hover:shadow-lg transition-all flex flex-col items-center justify-center gap-2 text-sm font-bold shadow-sm high-contrast-text group hover:scale-105">
-                    <i class="fa-brands fa-x-twitter text-black text-xl group-hover:scale-110"></i>
-                    <span class="text-xs">X</span>
-                </button>
-            </div>
-            <button onclick="closeModal('loginModal')" class="w-full mt-6 py-3 text-sm font-bold high-contrast-text uppercase hover:text-primary transition-all border-t border-slate-200 dark:border-slate-700 pt-4">✕ Tutup</button>
+            <p class="text-center text-xs font-bold high-contrast-text uppercase py-6 border-t border-slate-200 dark:border-slate-700 pt-6">Belum punya akun?</p>
+            <button onclick="openModal('regChoiceModal')" class="w-full py-3 bg-gradient-to-r from-primary to-secondary text-white rounded-2xl font-bold hover:shadow-xl transition-all shadow-lg">Daftar Sekarang</button>
+            <button onclick="closeModal('loginModal')" class="w-full mt-4 py-3 text-sm font-bold high-contrast-text uppercase hover:text-primary transition-all border-t border-slate-200 dark:border-slate-700 pt-4">✕ Tutup</button>
         </div>
     </div>
 
-    <!-- ✅ REG CHOICE MODAL - POPUP CERAH -->
+    <!-- REG CHOICE MODAL -->
     <div id="regChoiceModal" class="hidden fixed inset-0 z-[200] popup-overlay flex items-center justify-center p-4">
         <div class="popup-card p-8 w-full max-w-md animate-pop rounded-4xl shadow-2xl text-center">
             <div class="mb-8">
@@ -401,7 +556,7 @@
         </div>
     </div>
 
-    <!-- ✅ REGISTER MODAL - POPUP CERAH + LABEL KONTRAS -->
+    <!-- REGISTER MODAL -->
     <div id="registerModal" class="hidden fixed inset-0 z-[210] popup-overlay flex items-center justify-center p-4">
         <div class="popup-card p-8 w-full max-w-sm animate-pop rounded-4xl shadow-2xl border border-white/30 max-h-[90vh] overflow-y-auto">
             <div class="text-center mb-8">
@@ -424,9 +579,10 @@
                     <label class="form-label block mb-2">🆔 Username</label>
                     <input type="text" id="regUsername" placeholder="Username unik Anda" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm px-4 outline-none transition-all high-contrast-text shadow-sm" required>
                 </div>
-                <div>
+                <div class="password-container">
                     <label class="form-label block mb-2">🔐 Password</label>
-                    <input type="password" id="regPassword" placeholder="A-z + angka (min 8 karakter)" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm px-4 outline-none transition-all high-contrast-text shadow-sm" required>
+                    <input type="password" id="regPassword" placeholder="A-z + angka (min 8 karakter)" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm pr-12 outline-none transition-all high-contrast-text shadow-sm" required>
+                    <i class="fas fa-eye password-eye" onclick="togglePassword('regPassword')" id="regEye"></i>
                 </div>
                 <div>
                     <label class="form-label block mb-2">📱 No. Telepon</label>
@@ -436,23 +592,8 @@
                     <label class="form-label block mb-2">💬 ID Discord</label>
                     <input type="text" id="regDiscord" placeholder="username#1234" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm px-4 outline-none transition-all high-contrast-text shadow-sm" required>
                 </div>
-                <button type="submit" class="w-full py-4 popup-btn rounded-2xl font-black uppercase text-xs tracking-wider shadow-xl hover:shadow-2xl transition-all">🎉 Daftar Sekarang</button>
+                <button type="submit" class="w-full py-4 popup-btn rounded-2xl font-black uppercase text-xs tracking-wider shadow-xl hover:shadow-2xl transition-all text-white">🎉 Daftar Sekarang</button>
             </form>
-            <div class="my-6 flex items-center gap-3 opacity-40"><hr class="flex-1"> <span class="text-xs font-bold uppercase form-label">ATAU</span> <hr class="flex-1"></div>
-            <div class="grid grid-cols-3 gap-3 mb-6">
-                <button class="py-3 bg-white/90 dark:bg-slate-800/90 border rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex flex-col items-center justify-center gap-1 text-xs font-bold shadow-sm high-contrast-text group hover:scale-105">
-                    <i class="fab fa-google text-red-500 text-lg"></i>
-                    <span>Google</span>
-                </button>
-                <button class="py-3 bg-white/90 dark:bg-slate-800/90 border rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex flex-col items-center justify-center gap-1 text-xs font-bold shadow-sm high-contrast-text group hover:scale-105">
-                    <i class="fab fa-facebook text-blue-600 text-lg"></i>
-                    <span>Facebook</span>
-                </button>
-                <button class="py-3 bg-white/90 dark:bg-slate-800/90 border rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex flex-col items-center justify-center gap-1 text-xs font-bold shadow-sm high-contrast-text group hover:scale-105">
-                    <i class="fa-brands fa-x-twitter text-black text-lg"></i>
-                    <span>X</span>
-                </button>
-            </div>
             <button onclick="closeModal('registerModal')" class="w-full text-sm font-bold high-contrast-text uppercase hover:text-primary transition-all form-label border-t border-slate-200 dark:border-slate-700 pt-4">✕ Kembali</button>
         </div>
     </div>
@@ -486,7 +627,7 @@
                     <div class="min-w-0 flex-1"><p class="text-xs font-bold high-contrast-text uppercase mb-1">Discord</p><p id="detailDiscord" class="font-bold text-sm md:text-base high-contrast-text"></p></div>
                 </div>
             </div>
-            <button onclick="openBooking()" class="w-full py-4 popup-btn rounded-3xl font-bold uppercase tracking-wider text-sm shadow-xl hover:shadow-2xl transition-all">🚀 Booking Sesi</button>
+            <button onclick="openBooking()" class="w-full py-4 popup-btn rounded-3xl font-bold uppercase tracking-wider text-sm shadow-xl hover:shadow-2xl transition-all text-white">🚀 Booking Sesi</button>
         </div>
     </div>
 
@@ -532,14 +673,19 @@
                     <label class="form-label block mb-2">🕐 Jam (WIB)</label>
                     <input id="bTime" type="time" class="filter-dropdown w-full p-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary font-semibold text-sm outline-none shadow-sm high-contrast-text" required>
                 </div>
-                <button type="submit" class="w-full py-4 popup-btn rounded-3xl font-black uppercase tracking-wider text-sm shadow-xl hover:shadow-2xl transition-all">✅ Kirim Permintaan</button>
+                <button type="submit" class="w-full py-4 popup-btn rounded-3xl font-black uppercase tracking-wider text-sm shadow-xl hover:shadow-2xl transition-all text-white">✅ Kirim Permintaan</button>
             </form>
             <button onclick="closeModal('bookingModal')" class="w-full mt-6 text-sm font-bold high-contrast-text uppercase hover:text-primary transition-all form-label border-t border-slate-200 dark:border-slate-700 pt-4">✕ Batal</button>
         </div>
     </div>
 
     <script>
-        // Mentor data (same as before)
+        // User authentication system
+        let currentUser = null;
+        let isEditingProfile = false;
+        const users = JSON.parse(localStorage.getItem('findtor_users')) || [];
+
+        // Updated mentors with multiple fields support
         const mentors = [
             { 
                 name: 'Aline Queen A. S.', 
@@ -550,7 +696,7 @@
                 email: 'alinesalea25@students.unnes.ac.id', 
                 discord: 'aline#123', 
                 img: '1000079070.jpg', 
-                field: 'pm',           
+                fields: ['pm', 'web'],           
                 priceRange: '50-100', 
                 type: 'private' 
             },
@@ -563,7 +709,7 @@
                 email: 'marcovanbasten@students.unnes.ac.id', 
                 discord: 'marco#001', 
                 img: '1000079069.jpg', 
-                field: 'ai', 
+                fields: ['uiux', 'ai'], 
                 priceRange: '100-200', 
                 type: 'both' 
             },
@@ -576,7 +722,7 @@
                 email: 'radinnca000124@students.unnes.ac.id', 
                 discord: 'radin#99', 
                 img: '1000079071.jpg', 
-                field: 'web', 
+                fields: ['web', 'pm'], 
                 priceRange: '100-200', 
                 type: 'group' 
             },
@@ -589,18 +735,37 @@
                 email: 'nabilasafina@students.unnes.ac.id', 
                 discord: 'nabila#44', 
                 img: '1000079072.jpg', 
-                field: 'uiux', 
+                fields: ['cybersecurity', 'uiux'], 
                 priceRange: '200-300', 
                 type: 'private' 
             }
         ];
+
+        // Password toggle function
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const eye = input.nextElementSibling;
+            if (input.type === 'password') {
+                input.type = 'text';
+                eye.classList.remove('fa-eye');
+                eye.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                eye.classList.remove('fa-eye-slash');
+                eye.classList.add('fa-eye');
+            }
+        }
 
         // Theme Toggle
         const themeBtn = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
         themeBtn.addEventListener('click', () => {
             document.documentElement.classList.toggle('dark');
-            themeIcon.className = document.documentElement.classList.contains('dark') ? 'fas fa-sun text-lg' : 'fas fa-moon text-lg';
+            if (document.documentElement.classList.contains('dark')) {
+                themeIcon.className = 'fas fa-sun text-lg';
+            } else {
+                themeIcon.className = 'fas fa-moon text-lg';
+            }
             localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
         });
 
@@ -618,9 +783,206 @@
         function closeModal(id) {
             document.getElementById(id).classList.add('hidden');
             document.body.style.overflow = 'auto';
+            document.getElementById('userDropdown').classList.add('hidden');
         }
 
-        // Initialize Mentors (same as before)
+        // User Authentication Functions
+        function login(username, password) {
+            const user = users.find(u => 
+                (u.username === username || u.email === username) && u.password === password
+            );
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                updateUIAfterLogin();
+                return true;
+            }
+            return false;
+        }
+
+        function register(userData) {
+            if (users.find(u => u.username === userData.username || u.email === userData.email)) {
+                return false;
+            }
+            userData.profileImg = 'https://via.placeholder.com/150/000181/ffffff?text=👤';
+            users.push(userData);
+            localStorage.setItem('findtor_users', JSON.stringify(users));
+            return true;
+        }
+
+        function updateUIAfterLogin() {
+            document.getElementById('authSection').classList.add('hidden');
+            document.getElementById('userDashboard').classList.remove('hidden');
+            document.getElementById('loginBtn').style.display = 'none';
+            document.getElementById('dropdownUsername').textContent = currentUser.username;
+            document.getElementById('dropdownEmail').textContent = currentUser.email;
+        }
+
+        function updateUIBeforeLogin() {
+            document.getElementById('authSection').classList.remove('hidden');
+            document.getElementById('userDashboard').classList.add('hidden');
+            document.getElementById('loginBtn').style.display = 'block';
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+        }
+
+        function logout() {
+            updateUIBeforeLogin();
+            document.getElementById('userDropdown').classList.add('hidden');
+            alert('👋 Logout berhasil! Sampai jumpa lagi!');
+        }
+
+        // Load current user
+        const savedUser = localStorage.getItem('currentUser');
+        if (savedUser) {
+            currentUser = JSON.parse(savedUser);
+            updateUIAfterLogin();
+        }
+
+        // User Dropdown
+        document.getElementById('userProfileBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', () => {
+            document.getElementById('userDropdown').classList.add('hidden');
+        });
+
+        // Dashboard Functions
+        function showProfile() {
+            if (!currentUser) {
+                alert('⚠️ Harap login terlebih dahulu!');
+                return;
+            }
+            loadProfileData();
+            openModal('dashboardModal');
+            document.getElementById('userDropdown').classList.add('hidden');
+        }
+
+        function loadProfileData() {
+            document.getElementById('dashboardFullname').value = currentUser.fullname || '';
+            document.getElementById('dashboardUsername').value = currentUser.username || '';
+            document.getElementById('dashboardEmail').value = currentUser.email || '';
+            document.getElementById('dashboardPhone').value = currentUser.phone || '';
+            document.getElementById('dashboardDiscord').value = currentUser.discord || '';
+            document.getElementById('dashboardProfileImg').src = currentUser.profileImg || 'https://via.placeholder.com/150/000181/ffffff?text=👤';
+            
+            // Show mentor fields if user is mentor
+            const mentorSection = document.getElementById('mentorFieldsSection');
+            if (currentUser.role === 'mentor') {
+                mentorSection.classList.remove('hidden');
+                loadMentorFields();
+            } else {
+                mentorSection.classList.add('hidden');
+            }
+        }
+
+        function uploadProfileImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentUser.profileImg = e.target.result;
+                    document.getElementById('dashboardProfileImg').src = e.target.result;
+                    saveUserData();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function editProfile() {
+            isEditingProfile = true;
+            const inputs = ['dashboardFullname', 'dashboardUsername', 'dashboardEmail', 'dashboardPhone', 'dashboardDiscord'];
+            inputs.forEach(id => {
+                document.getElementById(id).removeAttribute('readonly');
+                document.getElementById(id).focus();
+            });
+            document.querySelector('.border-t').style.display = 'none';
+            document.getElementById('saveProfileBtn').classList.remove('hidden');
+        }
+
+        function saveProfile() {
+            currentUser.fullname = document.getElementById('dashboardFullname').value;
+            currentUser.username = document.getElementById('dashboardUsername').value;
+            currentUser.email = document.getElementById('dashboardEmail').value;
+            currentUser.phone = document.getElementById('dashboardPhone').value;
+            currentUser.discord = document.getElementById('dashboardDiscord').value;
+            
+            saveUserData();
+            loadProfileData();
+            alert('✅ Profil berhasil disimpan!');
+        }
+
+        function saveUserData() {
+            const userIndex = users.findIndex(u => u.username === currentUser.username);
+            if (userIndex !== -1) {
+                users[userIndex] = currentUser;
+            }
+            localStorage.setItem('findtor_users', JSON.stringify(users));
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            updateUIAfterLogin();
+        }
+
+        function loadMentorFields() {
+            const fields = currentUser.mentorFields || [];
+            const fieldMap = {
+                'field_pm': 'pm', 'field_ai': 'ai', 'field_web': 'web', 
+                'field_uiux': 'uiux', 'field_game': 'game', 'field_data': 'data-analyst',
+                'field_cyber': 'cybersecurity', 'field_prompt': 'prompt'
+            };
+            
+            Object.keys(fieldMap).forEach(id => {
+                document.getElementById(id).checked = fields.includes(fieldMap[id]);
+            });
+        }
+
+        function saveMentorFields() {
+            const fieldMap = {
+                'field_pm': 'pm', 'field_ai': 'ai', 'field_web': 'web', 
+                'field_uiux': 'uiux', 'field_game': 'game', 'field_data': 'data-analyst',
+                'field_cyber': 'cybersecurity', 'field_prompt': 'prompt'
+            };
+            
+            const selectedFields = [];
+            Object.keys(fieldMap).forEach(id => {
+                if (document.getElementById(id).checked) {
+                    selectedFields.push(fieldMap[id]);
+                }
+            });
+            
+            currentUser.mentorFields = selectedFields;
+            saveUserData();
+            alert('✅ Bidang mentor berhasil disimpan!');
+        }
+
+        function showOrders() {
+            alert('🛒 Pesanan Saya\n\nFitur ini akan segera hadir!');
+            document.getElementById('userDropdown').classList.add('hidden');
+        }
+
+        function showSchedule() {
+            alert('📅 Jadwal Saya\n\nFitur ini akan segera hadir!');
+            document.getElementById('userDropdown').classList.add('hidden');
+        }
+
+        // Improved Filter Logic
+        function filterMentors() {
+            const fieldFilter = document.getElementById('filterField').value.toLowerCase().trim();
+            const priceFilter = document.getElementById('filterPrice').value.toLowerCase().trim();
+            const typeFilter = document.getElementById('filterType').value.toLowerCase().trim();
+
+            const filtered = mentors.filter(mentor => {
+                const matchesField = !fieldFilter || mentor.fields.some(field => field === fieldFilter);
+                const matchesPrice = !priceFilter || mentor.priceRange.toLowerCase() === priceFilter;
+                const matchesType = !typeFilter || mentor.type.toLowerCase() === typeFilter;
+                return matchesField && matchesPrice && matchesType;
+            });
+
+            initMentors(filtered);
+        }
+
         function initMentors(filteredMentors = mentors) {
             const grid = document.getElementById('mentorGrid');
             if (filteredMentors.length === 0) {
@@ -650,21 +1012,6 @@
             `).join('');
         }
 
-        function filterMentors() {
-            const fieldFilter = document.getElementById('filterField').value.toLowerCase().trim();
-            const priceFilter = document.getElementById('filterPrice').value.toLowerCase().trim();
-            const typeFilter = document.getElementById('filterType').value.toLowerCase().trim();
-
-            const filtered = mentors.filter(mentor => {
-                const matchesField = !fieldFilter || mentor.field.toLowerCase() === fieldFilter;
-                const matchesPrice = !priceFilter || mentor.priceRange.toLowerCase() === priceFilter;
-                const matchesType = !typeFilter || mentor.type.toLowerCase() === typeFilter;
-                return matchesField && matchesPrice && matchesType;
-            });
-
-            initMentors(filtered);
-        }
-
         function showMentorDetail(name, bidang, price, phone, email, discord, img) {
             document.getElementById('detailName').textContent = name;
             document.getElementById('detailBidang').textContent = bidang;
@@ -685,31 +1032,61 @@
         // Form Handlers
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('✅ Login berhasil! Selamat datang di FINDTOR 🚀');
-            closeModal('loginModal');
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (login(username, password)) {
+                alert('✅ Login berhasil! Selamat datang kembali di FINDTOR 🚀');
+                closeModal('loginModal');
+            } else {
+                alert('❌ Username/Email atau password salah!');
+            }
         });
 
         document.getElementById('registerForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const password = document.getElementById('regPassword').value;
-            const email = document.getElementById('regEmail').value;
+            const userData = {
+                fullname: document.getElementById('regFullname').value,
+                email: document.getElementById('regEmail').value,
+                username: document.getElementById('regUsername').value,
+                password: document.getElementById('regPassword').value,
+                phone: document.getElementById('regPhone').value,
+                discord: document.getElementById('regDiscord').value,
+                role: document.getElementById('regRole').textContent.includes('MENTEE') ? 'mentee' : 'mentor',
+                createdAt: new Date().toISOString()
+            };
+            
+            const email = userData.email;
+            const password = userData.password;
             
             if (!email.includes('@')) {
                 alert('❌ Email harus mengandung @!');
                 return;
             }
             
-            if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
-                alert('❌ Password harus: huruf BESAR + kecil + ANGKA (tanpa simbol)!');
+            if (password.length < 8 || !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
+                alert('❌ Password harus: min 8 karakter, huruf BESAR + kecil + ANGKA!');
                 return;
             }
             
-            alert('🎉 Pendaftaran berhasil! Silakan login dengan akun baru Anda.');
-            closeModal('registerModal');
+            if (register(userData)) {
+                alert('🎉 Pendaftaran berhasil! Silakan login dengan akun baru Anda.');
+                closeModal('registerModal');
+                openModal('loginModal');
+            } else {
+                alert('❌ Username atau email sudah terdaftar!');
+            }
         });
 
         document.getElementById('bookingForm').addEventListener('submit', (e) => {
             e.preventDefault();
+            if (!currentUser) {
+                alert('⚠️ Harap login terlebih dahulu untuk booking!');
+                closeModal('bookingModal');
+                openModal('loginModal');
+                return;
+            }
+            
             const day = document.getElementById('bDay').value;
             const date = document.getElementById('bDate').value;
             const month = document.getElementById('bMonth').value;
@@ -720,7 +1097,7 @@
                 return;
             }
             
-            alert(`✅ Booking berhasil!\n\n📅 ${day}, ${date} ${month}\n🕐 ${time} WIB\n\nCek email untuk konfirmasi!`);
+            alert(`✅ Booking berhasil!\n\n📅 ${day}, ${date} ${month}\n🕐 ${time} WIB\n\nCek dashboard "Pesanan" dan email untuk konfirmasi!\n\nTerima kasih, ${currentUser.fullname}!`);
             closeModal('bookingModal');
         });
 
@@ -729,12 +1106,18 @@
         }
 
         function openBooking() {
+            if (!currentUser) {
+                alert('⚠️ Harap login terlebih dahulu untuk booking!');
+                closeModal('mentorDetailModal');
+                openModal('loginModal');
+                return;
+            }
             closeModal('mentorDetailModal');
             openModal('bookingModal');
         }
 
         window.onclick = function(e) {
-            const modals = ['loginModal', 'regChoiceModal', 'registerModal', 'mentorDetailModal', 'bookingModal'];
+            const modals = ['loginModal', 'regChoiceModal', 'registerModal', 'mentorDetailModal', 'bookingModal', 'dashboardModal'];
             modals.forEach(mId => {
                 if (e.target.id === mId) closeModal(mId);
             });
