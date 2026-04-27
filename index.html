@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FINDTOR - Professional Mentoring</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#000181',
+                        secondary: '#80a1d4',
+                        accent: '#c8d4e5',
+                        light: '#f7f4ea',
+                    },
+                    borderRadius: { '4xl': '2rem', '5xl': '2.5rem' },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            transition: all 0.3s ease; 
+            scroll-behavior: smooth; 
+        }
+       
+        .glass-card { 
+            background: rgba(255, 255, 255, 0.25); 
+            backdrop-filter: blur(16px); 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+        }
+        .dark .glass-card { 
+            background: rgba(15, 23, 42, 0.8); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+        }
+       
+        .gradient-bg {
+            background: linear-gradient(135deg, #000181 0%, #80a1d4 50%, #c8d4e5 100%);
+        }
+        
+        .btn-primary { 
+            background: linear-gradient(135deg, #000181 0%, #80a1d4 100%); 
+            color: white; 
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 25px -5px rgba(0, 1, 129, 0.4); 
+        }
+       
+        .btn-secondary { 
+            background: linear-gradient(135deg, #f7f4ea 0%, #c8d4e5 100%); 
+            color: #000181; 
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 25px -5px rgba(192, 212, 229, 0.4); 
+        }
+
+        /* ✅ POPUP CERAH - WARNA BARU */
+        .popup-overlay {
+            background: rgba(0, 1, 129, 0.85) !important;
+            backdrop-filter: blur(20px);
+        }
+        .popup-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.98) 100%) !important;
+            border: 2px solid rgba(0,1,129,0.2) !important;
+            box-shadow: 0 25px 50px -12px rgba(0,1,129,0.4), 0 0 0 1px rgba(255,255,255,0.9) !important;
+        }
+        .dark .popup-card {
+            background: linear-gradient(145deg, rgba(30,41,59,0.95) 0%, rgba(15,23,42,0.98) 100%) !important;
+            border: 2px solid rgba(128,161,212,0.3) !important;
+            box-shadow: 0 25px 50px -12px rgba(0,1,129,0.6), 0 0 0 1px rgba(255,255,255,0.2) !important;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .float { animation: float 6s ease-in-out infinite; }
+
+        .animate-pop { 
+            animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        }
+        @keyframes pop {
+            0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .hero-title {
+            -webkit-text-stroke: 0.5px rgba(0,0,0,0.1);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .dark .hero-title {
+            -webkit-text-stroke: 0.5px rgba(255,255,255,0.3);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(247, 244, 234, 0.1); }
+        ::-webkit-scrollbar-thumb { 
+            background: linear-gradient(#000181, #80a1d4); 
+            border-radius: 8px; 
+        }
+        .dark ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); }
+
+        .mentor-card {
+            transition: all 0.3s ease;
+        }
+        .mentor-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -10px rgba(0, 1, 129, 0.3);
+        }
+
+        /* ✅ LABEL KONTRAS TINGGI */
+        .form-label {
+            color: #000181 !important;
+            font-weight: 800 !important;
+            text-shadow: 0.5px 0.5px 1px rgba(255,255,255,0.8) !important;
+            font-size: 0.75rem !important;
+            letter-spacing: 0.05em !important;
+        }
+        .dark .form-label {
+            color: #f7f4ea !important;
+            text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.8) !important;
+        }
+
+        input:focus, select:focus {
+            box-shadow: 0 0 0 3px rgba(128, 161, 212, 0.4) !important;
+            transform: scale(1.01);
+            border-color: #000181 !important;
+        }
+
+        /* Twitter icon fix */
+        .fa-x-twitter {
+            color: #000000 !important;
+        }
+        .dark .fa-x-twitter {
+            color: #ffffff !important;
+        }
+
+        /* Profile images circular */
+        .profile-img {
+            border-radius: 50% !important;
+            object-fit: cover;
+        }
+
+        /* Team section title contrast fix */
+        .team-title {
+            color: #000181 !important;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+        }
+        .dark .team-title {
+            color: #f7f4ea !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        /* LEAD GACOR - WARNA BIRU KHUSUS */
+        .lead-gacor {
+            color: #000181 !important;
+            text-shadow: 1px 1px 2px rgba(0,1,129,0.3);
+        }
+        .lead-gacor .profile-img {
+            border-color: #000181 !important;
+            box-shadow: 0 0 0 4px rgba(0,1,129,0.3) !important;
+        }
+
+        /* High contrast text for all modes */
+        .high-contrast-text {
+            color: #1e293b !important;
+        }
+        .dark .high-contrast-text {
+            color: #f1f5f9 !important;
+        }
+
+        /* Filter dropdowns */
+        .filter-dropdown {
+            background: rgba(255, 255, 255, 0.9) !important;
+            color: #1e293b !important;
+        }
+        .dark .filter-dropdown {
+            background: rgba(15, 23, 42, 0.9) !important;
+            color: #f1f5f9 !important;
+        }
+        .filter-dropdown option {
+            background: white;
+            color: #1e293b;
+        }
+        .dark .filter-dropdown option {
+            background: #1e293b;
+            color: #f1f5f9;
+        }
+
+        /* Popup button glow */
+        .popup-btn {
+            background: linear-gradient(135deg, #000181 0%, #80a1d4 100%) !important;
+            box-shadow: 0 4px 15px rgba(0,1,129,0.4) !important;
+        }
+        .popup-btn:hover {
+            box-shadow: 0 8px 25px rgba(0,1,129,0.6) !important;
+            transform: translateY(-2px) !important;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-light via-accent/50 to-secondary dark:from-slate-900 dark:to-slate-950 min-h-screen">
+
+    <nav class="fixed top-0 w-full z-50 glass-card px-4 md:px-8 py-3 flex justify-between items-center border-b shadow-lg">
+        <div class="text-2xl md:text-3xl font-black tracking-tight high-contrast-text">
+            <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">FIND</span><span class="text-yellow-500">TOR</span>
+        </div>
+        <div class="flex items-center gap-3 md:gap-6">
+            <div class="hidden md:flex gap-6 font-bold text-xs uppercase tracking-wider high-contrast-text">
+                <a href="#home" class="hover:text-primary transition-all group relative">
+                    Beranda 
+                    <span class="absolute bottom-0 left-0 h-0.5 bg-primary w-0 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#mentors" class="hover:text-primary transition-all group relative">
+                    Mentor 
+                    <span class="absolute bottom-0 left-0 h-0.5 bg-primary w-0 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#about" class="hover:text-primary transition-all group relative">
+                    Tim 
+                    <span class="absolute bottom-0 left-0 h-0.5 bg-primary w-0 group-hover:w-full transition-all duration-300"></span>
+                </a>
+            </div>
+            <div class="flex items-center gap-2 border-l px-4 border-slate-200 dark:border-slate-700">
+                <button id="theme-toggle" class="p-2 rounded-2xl hover:bg-white/30 dark:hover:bg-slate-800/50 transition-all hover:scale-110">
+                    <i id="theme-icon" class="fas fa-moon text-lg"></i>
+                </button>
+                <button onclick="openModal('loginModal')" class="px-6 py-2.5 rounded-2xl btn-primary text-xs font-black uppercase tracking-wider shadow-lg popup-btn">Login</button>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="pt-32 pb-24 px-4 md:px-8 relative">
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <div class="animate-pop mb-12">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight uppercase hero-title mb-6 high-contrast-text">
+                    Find Your Mentor,<br><span class="text-yellow-500">Level Up Your Life</span>.
+                </h1>
+                <p class="text-lg md:text-xl font-light text-slate-800 dark:text-slate-200 mb-12 max-w-2xl mx-auto leading-relaxed high-contrast-text">Platform mentoring bidag TI untuk mahasiswa dan profesional muda. Belajar langsung dari ahlinya.</p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center animate-pop">
+                <button onclick="openModal('regChoiceModal')" class="px-10 py-4 rounded-3xl btn-secondary font-bold text-base tracking-wide uppercase shadow-xl flex-1 max-w-xs popup-btn">Mulai Sekarang</button>
+                <a href="#mentors" class="px-10 py-4 rounded-3xl bg-white/20 backdrop-blur-md border border-white/30 font-bold text-base hover:bg-white/30 transition-all flex-1 max-w-xs text-center high-contrast-text py-4">Jelajahi Mentor</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="mentors" class="py-20 px-4 md:px-8 max-w-6xl mx-auto -mt-16">
+        <div class="glass-card p-8 md:p-10 rounded-4xl shadow-xl mb-16 border-t border-white/40 animate-pop">
+            <h2 class="text-base md:text-lg font-black text-primary uppercase tracking-[0.3em] mb-8 text-center high-contrast-text">🔍 Pencarian Mentor</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <select id="filterField" class="filter-dropdown w-full p-4 rounded-2xl border hover:border-secondary focus:border-primary font-semibold text-sm transition-all outline-none">
+                    <option value="">Pilih Bidang</option>
+                    <option value="pm">Project Manager</option>
+                    <option value="ai">AI Engineer</option>
+                    <option value="web">Web Development</option>
+                    <option value="game">Game Development</option>
+                    <option value="software">Software Engineer</option>
+                    <option value="uiux">UI/UX Designer</option>
+                    <option value="prompt">Prompt Engineer</option>
+                    <option value="data-analyst">Data Analyst</option>
+                    <option value="data-scientist">Data Scientist</option>
+                </select>
+                <select id="filterPrice" class="filter-dropdown w-full p-4 rounded-2xl border hover:border-secondary focus:border-primary font-semibold text-sm transition-all outline-none">
+                    <option value="">Range Harga</option>
+                    <option value="50-100">Rp 50k - 100k</option>
+                    <option value="100-200">Rp 100k - 200k</option>
+                    <option value="200-300">Rp 200k - 300k</option>
+                    <option value="0-50">Rp 0 - 50k</option>
+                    <option value="300+">Rp 300k+</option>
+                </select>
+                <select id="filterType" class="filter-dropdown w-full p-4 rounded-2xl border hover:border-secondary focus:border-primary font-semibold text-sm transition-all outline-none">
+                    <option value="">Tipe Diskusi</option>
+                    <option value="private">Private 1-on-1</option>
+                    <option value="group">Group Discussion</option>
+                    <option value="both">Keduanya</option>
+                </select>
+                <button onclick="filterMentors()" class="w-full btn-primary rounded-2xl font-black uppercase text-xs tracking-wider h-[56px] shadow-lg hover:shadow-xl popup-btn">🔎 Cari</button>
+            </div>
+        </div>
+
+        <div id="mentorGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+            <!-- Populated by JS -->
+        </div>
+    </section>
+
+    <section id="about" class="py-24 px-4 md:px-8 bg-white/50 dark:bg-slate-900/50">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-black mb-16 uppercase tracking-tight team-title animate-pop">Dibalik Layar FINDTOR</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+                <div class="group cursor-pointer hover:scale-105 transition-all duration-300">
+                    <img src="1000079069.jpg" class="w-24 h-24 md:w-28 md:h-28 mx-auto profile-img mb-4 group-hover:rotate-6 transition-all shadow-lg border-4 border-primary/50 lead-gacor">
+                    <h4 class="font-black text-xl md:text-2xl mb-1 lead-gacor team-title">Marco Van Basten</h4>
+                    <p class="text-primary text-sm md:text-base font-bold uppercase lead-gacor">Lead Gacor</p>
+                </div>
+                <div class="group cursor-pointer hover:scale-105 transition-all duration-300">
+                    <img src="1000079070.jpg" class="w-24 h-24 md:w-28 md:h-28 mx-auto profile-img mb-4 group-hover:-rotate-6 transition-all shadow-lg border-4 border-secondary/50">
+                    <h4 class="font-black text-xl md:text-2xl mb-1 high-contrast-text team-title">Aline Queen</h4>
+                    <p class="text-secondary text-sm md:text-base font-bold uppercase high-contrast-text">Member Gokil 1</p>
+                </div>
+                <div class="group cursor-pointer hover:scale-105 transition-all duration-300">
+                    <img src="1000079071.jpg" class="w-24 h-24 md:w-28 md:h-28 mx-auto profile-img mb-4 group-hover:rotate-6 transition-all shadow-lg border-4 border-accent/50">
+                    <h4 class="font-black text-xl md:text-2xl mb-1 high-contrast-text team-title">Radin Cakrawangi</h4>
+                    <p class="text-accent text-sm md:text-base font-bold uppercase high-contrast-text">Member Gokil 2</p>
+                </div>
+                <div class="group cursor-pointer hover:scale-105 transition-all duration-300">
+                    <img src="1000079072.jpg" class="w-24 h-24 md:w-28 md:h-28 mx-auto profile-img mb-4 group-hover:-rotate-6 transition-all shadow-lg border-4 border-primary/50">
+                    <h4 class="font-black text-xl md:text-2xl mb-1 high-contrast-text team-title">Nabila Safinatun</h4>
+                    <p class="text-primary text-sm md:text-base font-bold uppercase high-contrast-text">Member Gokil 3</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 border-t border-slate-200 dark:border-slate-800 text-center">
+        <p class="text-sm md:text-base font-black uppercase tracking-[0.3em] high-contrast-text">© 2024 FINDTOR. Build With Passion.</p>
+    </footer>
+
+    <!-- ✅ LOGIN MODAL - POPUP CERAH -->
+    <div id="loginModal" class="hidden fixed inset-0 z-[200] popup-overlay flex items-center justify-center p-4">
+        <div class="popup-card p-8 w-full max-w-sm animate-pop rounded-4xl shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-gradient-to-r from-primary to-secondary rounded-3xl mx-auto mb-4 flex items-center justify-center shadow-2xl">
+                    <i class="fas fa-sign-in-alt text-2xl text-white"></i>
+                </div>
+                <h2 class="text-2xl font-black uppercase tracking-tight form-label mb-2">Masuk Akun</h2>
+            </div>
+            <form id="loginForm" class="space-y-5">
+                <div>
+                    <label class="form-label block mb-2">👤 Username / Email</label>
+                    <input type="text" id="loginUsername" placeholder="Masukkan username atau email" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm px-4 outline-none transition-all high-contrast-text shadow-sm" required>
+                </div>
+                <div>
+                    <label class="form-label block mb-2">🔒 Password</label>
+                    <input type="password" id="loginPassword" placeholder="Masukkan password Anda" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm px-4 outline-none transition-all high-contrast-text shadow-sm" required>
+                </div>
+                <div class="flex justify-between items-center text-xs high-contrast-text">
+                    <label class="flex items-center gap-2"><input type="checkbox" class="w-4 h-4 rounded border-primary"> Ingat Saya</label>
+                    <button type="button" onclick="resetPassword()" class="font-bold text-primary hover:text-secondary transition-all form-label">Lupa Password?</button>
+                </div>
+                <button type="submit" class="w-full py-4 popup-btn rounded-2xl font-black uppercase text-xs tracking-wider shadow-xl hover:shadow-2xl transition-all">🚀 Masuk Sekarang</button>
+            </form>
+            <p class="text-center text-xs font-bold high-contrast-text uppercase py-6 border-t border-slate-200 dark:border-slate-700 pt-6">Atau Masuk Melalui</p>
+            <div class="grid grid-cols-3 gap-3">
+                <button class="py-4 bg-white/90 dark:bg-slate-800/90 border-2 border-slate-200 dark:border-slate-700 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 hover:shadow-lg transition-all flex flex-col items-center justify-center gap-2 text-sm font-bold shadow-sm high-contrast-text group hover:scale-105">
+                    <i class="fab fa-google text-red-500 text-xl group-hover:scale-110"></i>
+                    <span class="text-xs">Google</span>
+                </button>
+                <button class="py-4 bg-white/90 dark:bg-slate-800/90 border-2 border-slate-200 dark:border-slate-700 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 hover:shadow-lg transition-all flex flex-col items-center justify-center gap-2 text-sm font-bold shadow-sm high-contrast-text group hover:scale-105">
+                    <i class="fab fa-facebook text-blue-600 text-xl group-hover:scale-110"></i>
+                    <span class="text-xs">Facebook</span>
+                </button>
+                <button class="py-4 bg-white/90 dark:bg-slate-800/90 border-2 border-slate-200 dark:border-slate-700 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 hover:shadow-lg transition-all flex flex-col items-center justify-center gap-2 text-sm font-bold shadow-sm high-contrast-text group hover:scale-105">
+                    <i class="fa-brands fa-x-twitter text-black text-xl group-hover:scale-110"></i>
+                    <span class="text-xs">X</span>
+                </button>
+            </div>
+            <button onclick="closeModal('loginModal')" class="w-full mt-6 py-3 text-sm font-bold high-contrast-text uppercase hover:text-primary transition-all border-t border-slate-200 dark:border-slate-700 pt-4">✕ Tutup</button>
+        </div>
+    </div>
+
+    <!-- ✅ REG CHOICE MODAL - POPUP CERAH -->
+    <div id="regChoiceModal" class="hidden fixed inset-0 z-[200] popup-overlay flex items-center justify-center p-4">
+        <div class="popup-card p-8 w-full max-w-md animate-pop rounded-4xl shadow-2xl text-center">
+            <div class="mb-8">
+                <div class="w-20 h-20 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-3xl mx-auto mb-6 flex items-center justify-center shadow-2xl border-4 border-white/50">
+                    <i class="fas fa-user-plus text-2xl text-white"></i>
+                </div>
+                <h2 class="text-2xl font-black uppercase tracking-tight form-label mb-4">Daftar Sebagai</h2>
+            </div>
+            <div class="grid grid-cols-2 gap-6">
+                <button onclick="openRegisterModal('mentee')" class="group p-8 border-2 border-slate-200 dark:border-slate-700 rounded-3xl hover:border-primary hover:scale-105 bg-white/70 dark:bg-slate-800/70 transition-all hover:shadow-2xl hover:bg-primary/5 relative overflow-hidden">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-r from-primary to-secondary border-3 border-white/50 flex items-center justify-center mx-auto mb-4 text-2xl group-hover:bg-white group-hover:text-primary group-hover:border-primary transition-all shadow-xl">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <span class="font-black uppercase text-lg group-hover:text-primary form-label block">Mentee</span>
+                    <p class="text-xs opacity-75 mt-1 high-contrast-text">Mau belajar</p>
+                </button>
+                <button onclick="openRegisterModal('mentor')" class="group p-8 border-2 border-slate-200 dark:border-slate-700 rounded-3xl hover:border-yellow-400 hover:scale-105 bg-white/70 dark:bg-slate-800/70 transition-all hover:shadow-2xl hover:bg-yellow-400/5 relative overflow-hidden">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-r from-yellow-400 to-orange-500 border-3 border-white/50 flex items-center justify-center mx-auto mb-4 text-2xl group-hover:bg-white group-hover:text-yellow-500 group-hover:border-yellow-400 transition-all shadow-xl">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <span class="font-black uppercase text-lg group-hover:text-yellow-400 form-label block">Mentor</span>
+                    <p class="text-xs opacity-75 mt-1 high-contrast-text">Mau mengajar</p>
+                </button>
+            </div>
+            <button onclick="closeModal('regChoiceModal')" class="mt-8 text-sm font-bold high-contrast-text uppercase hover:text-primary transition-all form-label">✕ Batal</button>
+        </div>
+    </div>
+
+    <!-- ✅ REGISTER MODAL - POPUP CERAH + LABEL KONTRAS -->
+    <div id="registerModal" class="hidden fixed inset-0 z-[210] popup-overlay flex items-center justify-center p-4">
+        <div class="popup-card p-8 w-full max-w-sm animate-pop rounded-4xl shadow-2xl border border-white/30 max-h-[90vh] overflow-y-auto">
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-gradient-to-r from-green-400 to-emerald-500 rounded-3xl mx-auto mb-4 flex items-center justify-center shadow-2xl">
+                    <i class="fas fa-user-check text-2xl text-white"></i>
+                </div>
+                <h2 class="text-2xl font-black uppercase tracking-tight form-label mb-2" id="regTitle">Pendaftaran</h2>
+                <p class="text-sm font-bold form-label uppercase tracking-wider" id="regRole">Sebagai ROLE</p>
+            </div>
+            <form id="registerForm" class="space-y-5">
+                <div>
+                    <label class="form-label block mb-2">👤 Nama Lengkap</label>
+                    <input type="text" id="regFullname" placeholder="Masukkan nama lengkap Anda" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm px-4 outline-none transition-all high-contrast-text shadow-sm" required>
+                </div>
+                <div>
+                    <label class="form-label block mb-2">📧 Email</label>
+                    <input type="email" id="regEmail" placeholder="contoh@email.com (harus @)" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm px-4 outline-none transition-all high-contrast-text shadow-sm" required>
+                </div>
+                <div>
+                    <label class="form-label block mb-2">🆔 Username</label>
+                    <input type="text" id="regUsername" placeholder="Username unik Anda" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm px-4 outline-none transition-all high-contrast-text shadow-sm" required>
+                </div>
+                <div>
+                    <label class="form-label block mb-2">🔐 Password</label>
+                    <input type="password" id="regPassword" placeholder="A-z + angka (min 8 karakter)" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm px-4 outline-none transition-all high-contrast-text shadow-sm" required>
+                </div>
+                <div>
+                    <label class="form-label block mb-2">📱 No. Telepon</label>
+                    <input type="tel" id="regPhone" placeholder="08xx-xxxx-xxxx" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm px-4 outline-none transition-all high-contrast-text shadow-sm" required>
+                </div>
+                <div>
+                    <label class="form-label block mb-2">💬 ID Discord</label>
+                    <input type="text" id="regDiscord" placeholder="username#1234" class="w-full p-4 rounded-2xl bg-white/80 dark:bg-slate-800/80 border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary text-sm px-4 outline-none transition-all high-contrast-text shadow-sm" required>
+                </div>
+                <button type="submit" class="w-full py-4 popup-btn rounded-2xl font-black uppercase text-xs tracking-wider shadow-xl hover:shadow-2xl transition-all">🎉 Daftar Sekarang</button>
+            </form>
+            <div class="my-6 flex items-center gap-3 opacity-40"><hr class="flex-1"> <span class="text-xs font-bold uppercase form-label">ATAU</span> <hr class="flex-1"></div>
+            <div class="grid grid-cols-3 gap-3 mb-6">
+                <button class="py-3 bg-white/90 dark:bg-slate-800/90 border rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex flex-col items-center justify-center gap-1 text-xs font-bold shadow-sm high-contrast-text group hover:scale-105">
+                    <i class="fab fa-google text-red-500 text-lg"></i>
+                    <span>Google</span>
+                </button>
+                <button class="py-3 bg-white/90 dark:bg-slate-800/90 border rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex flex-col items-center justify-center gap-1 text-xs font-bold shadow-sm high-contrast-text group hover:scale-105">
+                    <i class="fab fa-facebook text-blue-600 text-lg"></i>
+                    <span>Facebook</span>
+                </button>
+                <button class="py-3 bg-white/90 dark:bg-slate-800/90 border rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex flex-col items-center justify-center gap-1 text-xs font-bold shadow-sm high-contrast-text group hover:scale-105">
+                    <i class="fa-brands fa-x-twitter text-black text-lg"></i>
+                    <span>X</span>
+                </button>
+            </div>
+            <button onclick="closeModal('registerModal')" class="w-full text-sm font-bold high-contrast-text uppercase hover:text-primary transition-all form-label border-t border-slate-200 dark:border-slate-700 pt-4">✕ Kembali</button>
+        </div>
+    </div>
+
+    <!-- Mentor Detail Modal -->
+    <div id="mentorDetailModal" class="hidden fixed inset-0 z-[200] popup-overlay flex items-center justify-center p-4">
+        <div class="glass-card p-8 w-full max-w-lg animate-pop rounded-4xl shadow-2xl border border-white/30 relative">
+            <button onclick="closeModal('mentorDetailModal')" class="absolute top-4 right-4 text-slate-400 hover:text-red-500 text-xl hover:scale-110 transition-all high-contrast-text"><i class="fas fa-times"></i></button>
+            <div class="flex items-start gap-6 mb-8">
+                <img id="detailImg" src="" class="w-24 h-24 md:w-28 md:h-28 profile-img shadow-xl border-4 border-white dark:border-slate-700 flex-shrink-0 hover:scale-110 transition-all">
+                <div class="flex-1 min-w-0">
+                    <h2 id="detailName" class="text-2xl md:text-3xl font-black uppercase tracking-tight leading-tight mb-2 high-contrast-text">Nama Mentor</h2>
+                    <p id="detailBidang" class="text-sm md:text-base font-bold text-secondary uppercase tracking-wider mb-2 high-contrast-text">Bidang Ahli</p>
+                    <div class="flex gap-2 flex-wrap">
+                        <div class="px-3 py-1 bg-primary/20 text-primary text-xs font-bold uppercase rounded-xl">Online</div>
+                        <div class="px-3 py-1 bg-green-500/20 text-green-600 text-xs font-bold uppercase rounded-xl">Tersedia</div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-4 mb-8">
+                <div class="flex items-center gap-4 p-4 bg-white/60 dark:bg-slate-800/60 rounded-3xl hover:shadow-md transition-all">
+                    <i class="fas fa-phone text-primary text-lg"></i>
+                    <div class="min-w-0 flex-1"><p class="text-xs font-bold high-contrast-text uppercase mb-1">Kontak</p><p id="detailPhone" class="font-bold text-sm md:text-base truncate high-contrast-text"></p></div>
+                </div>
+                <div class="flex items-center gap-4 p-4 bg-white/60 dark:bg-slate-800/60 rounded-3xl hover:shadow-md transition-all">
+                    <i class="fas fa-envelope text-red-400 text-lg"></i>
+                    <div class="min-w-0 flex-1"><p class="text-xs font-bold high-contrast-text uppercase mb-1">Email</p><p id="detailEmail" class="font-bold text-sm md:text-base truncate high-contrast-text"></p></div>
+                </div>
+                <div class="flex items-center gap-4 p-4 bg-white/60 dark:bg-slate-800/60 rounded-3xl hover:shadow-md transition-all">
+                    <i class="fab fa-discord text-indigo-400 text-lg"></i>
+                    <div class="min-w-0 flex-1"><p class="text-xs font-bold high-contrast-text uppercase mb-1">Discord</p><p id="detailDiscord" class="font-bold text-sm md:text-base high-contrast-text"></p></div>
+                </div>
+            </div>
+            <button onclick="openBooking()" class="w-full py-4 popup-btn rounded-3xl font-bold uppercase tracking-wider text-sm shadow-xl hover:shadow-2xl transition-all">🚀 Booking Sesi</button>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="hidden fixed inset-0 z-[220] popup-overlay flex items-center justify-center p-4">
+        <div class="popup-card p-8 w-full max-w-sm animate-pop rounded-4xl shadow-2xl border border-white/30">
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-3xl mx-auto flex items-center justify-center shadow-2xl mb-4">
+                    <i class="fas fa-calendar-check text-2xl text-white"></i>
+                </div>
+                <h2 class="text-2xl font-black uppercase tracking-tight form-label">📅 Atur Jadwal</h2>
+            </div>
+            <form id="bookingForm" class="space-y-5">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="form-label block mb-2">📅 Hari</label>
+                        <select id="bDay" class="filter-dropdown w-full p-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary font-semibold text-sm outline-none shadow-sm">
+                            <option>Senin</option><option>Selasa</option><option>Rabu</option><option>Kamis</option><option>Jumat</option><option>Sabtu</option><option>Minggu</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label block mb-2">📍 Tanggal</label>
+                        <select id="bDate" class="filter-dropdown w-full p-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary font-semibold text-sm outline-none shadow-sm">
+                            <script>for(let i=1; i<=31; i++) document.write(`<option>${i}</option>`);</script>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="form-label block mb-2">📋 Bulan</label>
+                        <select id="bMonth" class="filter-dropdown w-full p-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary font-semibold text-sm outline-none shadow-sm">
+                            <option>Januari</option><option>Februari</option><option>Maret</option><option>April</option><option>Mei</option><option>Juni</option><option>Juli</option><option>Agustus</option><option>September</option><option>Oktober</option><option>November</option><option>Desember</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label block mb-2">📅 Tahun</label>
+                        <select id="bYear" class="filter-dropdown w-full p-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary font-semibold text-sm outline-none shadow-sm">
+                            <option>2024</option><option>2025</option><option>2026</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="form-label block mb-2">🕐 Jam (WIB)</label>
+                    <input id="bTime" type="time" class="filter-dropdown w-full p-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 hover:border-primary focus:border-primary font-semibold text-sm outline-none shadow-sm high-contrast-text" required>
+                </div>
+                <button type="submit" class="w-full py-4 popup-btn rounded-3xl font-black uppercase tracking-wider text-sm shadow-xl hover:shadow-2xl transition-all">✅ Kirim Permintaan</button>
+            </form>
+            <button onclick="closeModal('bookingModal')" class="w-full mt-6 text-sm font-bold high-contrast-text uppercase hover:text-primary transition-all form-label border-t border-slate-200 dark:border-slate-700 pt-4">✕ Batal</button>
+        </div>
+    </div>
+
+    <script>
+        // Mentor data (same as before)
+        const mentors = [
+            { 
+                name: 'Aline Queen A. S.', 
+                fullName: 'Aline Queen Angelique Salea', 
+                bidang: 'Project Manager • Web Dev', 
+                price: '100k', 
+                phone: '08 xx xxx xxxx', 
+                email: 'alinesalea25@students.unnes.ac.id', 
+                discord: 'aline#123', 
+                img: '1000079070.jpg', 
+                field: 'pm',           
+                priceRange: '50-100', 
+                type: 'private' 
+            },
+            { 
+                name: 'Marco Van Basten', 
+                fullName: 'Marco Van Basten Simanjuntak', 
+                bidang: 'UI/UX • AI Engineer', 
+                price: '200k', 
+                phone: '08 xx xxx xxxx', 
+                email: 'marcovanbasten@students.unnes.ac.id', 
+                discord: 'marco#001', 
+                img: '1000079069.jpg', 
+                field: 'ai', 
+                priceRange: '100-200', 
+                type: 'both' 
+            },
+            { 
+                name: 'Radin Cakrawangi', 
+                fullName: 'Radin Cakrawangi Joharmanik', 
+                bidang: 'Web Dev • Project Manager', 
+                price: '150k', 
+                phone: '08 xx xxx xxxx', 
+                email: 'radinnca000124@students.unnes.ac.id', 
+                discord: 'radin#99', 
+                img: '1000079071.jpg', 
+                field: 'web', 
+                priceRange: '100-200', 
+                type: 'group' 
+            },
+            { 
+                name: 'Nabila Safinatun', 
+                fullName: 'Nabila Safinatun Nafisa', 
+                bidang: 'Cybersecurity • UI/UX', 
+                price: '250k', 
+                phone: '08 xx xxx xxxx', 
+                email: 'nabilasafina@students.unnes.ac.id', 
+                discord: 'nabila#44', 
+                img: '1000079072.jpg', 
+                field: 'uiux', 
+                priceRange: '200-300', 
+                type: 'private' 
+            }
+        ];
+
+        // Theme Toggle
+        const themeBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        themeBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            themeIcon.className = document.documentElement.classList.contains('dark') ? 'fas fa-sun text-lg' : 'fas fa-moon text-lg';
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeIcon.className = 'fas fa-sun text-lg';
+        }
+
+        // Modal Functions
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Initialize Mentors (same as before)
+        function initMentors(filteredMentors = mentors) {
+            const grid = document.getElementById('mentorGrid');
+            if (filteredMentors.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-20">
+                        <i class="fas fa-search text-5xl text-slate-400 mb-6"></i>
+                        <h3 class="text-2xl font-black text-slate-400 mb-4 high-contrast-text">Mentor Tidak Ditemukan</h3>
+                        <p class="text-lg text-slate-500 high-contrast-text">Coba ubah filter pencarian Anda</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = filteredMentors.map(mentor => `
+                <div class="glass-card mentor-card p-6 md:p-8 rounded-4xl text-center border hover:border-primary cursor-pointer group shadow-lg hover:shadow-2xl transition-all duration-300" onclick="showMentorDetail('${mentor.fullName.replace(/'/g, "\\'")}', '${mentor.bidang.replace(/'/g, "\\'")}', '${mentor.price}', '${mentor.phone}', '${mentor.email}', '${mentor.discord}', '${mentor.img}')">
+                    <div class="relative w-20 h-20 md:w-24 md:h-24 mx-auto mb-6 group-hover:scale-110 transition-all duration-300">
+                        <img src="${mentor.img}" class="w-full h-full profile-img border-4 border-white dark:border-slate-800 shadow-xl group-hover:shadow-2xl transition-all duration-300">
+                        <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 border-3 border-white dark:border-slate-900 rounded-full group-hover:animate-ping"></div>
+                    </div>
+                    <h3 class="font-black text-xl md:text-2xl mb-2 uppercase tracking-tight group-hover:text-primary transition-all high-contrast-text">${mentor.name}</h3>
+                    <p class="text-xs md:text-sm font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider mb-6 group-hover:text-secondary transition-all high-contrast-text">${mentor.bidang}</p>
+                    <div class="bg-white/70 dark:bg-slate-800/70 p-4 md:p-5 rounded-3xl mb-6 group-hover:bg-primary/10 transition-all">
+                        <p class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase mb-1 high-contrast-text">Mulai Dari</p>
+                        <p class="font-black text-2xl md:text-3xl text-primary high-contrast-text">${mentor.price} <span class="text-xs opacity-70">/sesi</span></p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterMentors() {
+            const fieldFilter = document.getElementById('filterField').value.toLowerCase().trim();
+            const priceFilter = document.getElementById('filterPrice').value.toLowerCase().trim();
+            const typeFilter = document.getElementById('filterType').value.toLowerCase().trim();
+
+            const filtered = mentors.filter(mentor => {
+                const matchesField = !fieldFilter || mentor.field.toLowerCase() === fieldFilter;
+                const matchesPrice = !priceFilter || mentor.priceRange.toLowerCase() === priceFilter;
+                const matchesType = !typeFilter || mentor.type.toLowerCase() === typeFilter;
+                return matchesField && matchesPrice && matchesType;
+            });
+
+            initMentors(filtered);
+        }
+
+        function showMentorDetail(name, bidang, price, phone, email, discord, img) {
+            document.getElementById('detailName').textContent = name;
+            document.getElementById('detailBidang').textContent = bidang;
+            document.getElementById('detailPhone').textContent = phone;
+            document.getElementById('detailEmail').textContent = email;
+            document.getElementById('detailDiscord').textContent = discord;
+            document.getElementById('detailImg').src = img;
+            openModal('mentorDetailModal');
+        }
+
+        function openRegisterModal(role) {
+            closeModal('regChoiceModal');
+            document.getElementById('regTitle').textContent = `Pendaftaran ${role === 'mentee' ? 'Mentee' : 'Mentor'}`;
+            document.getElementById('regRole').textContent = `Sebagai ${role.toUpperCase()}`;
+            openModal('registerModal');
+        }
+
+        // Form Handlers
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('✅ Login berhasil! Selamat datang di FINDTOR 🚀');
+            closeModal('loginModal');
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const password = document.getElementById('regPassword').value;
+            const email = document.getElementById('regEmail').value;
+            
+            if (!email.includes('@')) {
+                alert('❌ Email harus mengandung @!');
+                return;
+            }
+            
+            if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(password)) {
+                alert('❌ Password harus: huruf BESAR + kecil + ANGKA (tanpa simbol)!');
+                return;
+            }
+            
+            alert('🎉 Pendaftaran berhasil! Silakan login dengan akun baru Anda.');
+            closeModal('registerModal');
+        });
+
+        document.getElementById('bookingForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const day = document.getElementById('bDay').value;
+            const date = document.getElementById('bDate').value;
+            const month = document.getElementById('bMonth').value;
+            const time = document.getElementById('bTime').value;
+            
+            if (!time) {
+                alert('⚠️ Pilih jam terlebih dahulu!');
+                return;
+            }
+            
+            alert(`✅ Booking berhasil!\n\n📅 ${day}, ${date} ${month}\n🕐 ${time} WIB\n\nCek email untuk konfirmasi!`);
+            closeModal('bookingModal');
+        });
+
+        function resetPassword() {
+            alert('📧 Instruksi reset password dikirim ke email Anda!');
+        }
+
+        function openBooking() {
+            closeModal('mentorDetailModal');
+            openModal('bookingModal');
+        }
+
+        window.onclick = function(e) {
+            const modals = ['loginModal', 'regChoiceModal', 'registerModal', 'mentorDetailModal', 'bookingModal'];
+            modals.forEach(mId => {
+                if (e.target.id === mId) closeModal(mId);
+            });
+        }
+
+        initMentors();
+    </script>
+</body>
+</html>
